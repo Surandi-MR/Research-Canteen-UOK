@@ -1,0 +1,39 @@
+---
+title: "Project Progress"
+author: "Risina Surandi"
+date: "2025-02-08"
+output: html_document
+---
+
+```{r}
+# Load the dataset
+data <- read.csv("Dataset_Final.csv")
+
+# Reshape the data to long format for analysis
+library(tidyr)
+long_data <- pivot_longer(data, cols = starts_with("Usually_prefer_for"),names_to = "Meal_Time",values_to = "Meal_Type")
+
+# Clean up Meal_Time column to extract meaningful names
+long_data$Meal_Time <- gsub("Usually_prefer_for_", "", long_data$Meal_Time)
+
+# Create a two-way contingency table
+contingency_table <- table(long_data$Meal_Type, long_data$Meal_Time)
+
+# Print the contingency table
+contingency_df <- as.data.frame.matrix(contingency_table)
+print("Contingency table as a data frame:")
+print(contingency_df)
+
+# Perform a Chi-Square Goodness-of-Fit Test
+# Null hypothesis: Meal preferences are equally distributed
+goodness_of_fit <- chisq.test(rowSums(contingency_table))
+print("Goodness-of-Fit Test:")
+print(goodness_of_fit)
+
+# Perform a Chi-Square Test of Independence
+# Null hypothesis: Meal preferences are independent of meal time
+independence_test <- chisq.test(contingency_table)
+print("Test of Independence:")
+print(independence_test)
+```
+
