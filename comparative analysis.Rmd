@@ -37,3 +37,34 @@ print("Test of Independence:")
 print(independence_test)
 ```
 
+
+```{r}
+library(tidyr)
+long_data <- pivot_longer(data, cols = starts_with("Factor"), 
+                          names_to = "Factor_for_Preference", 
+                          values_to = "Prefer_Canteen")
+
+# Clean up Meal_Time column to extract meaningful names
+long_data$Factor_for_Preference <- gsub("Factor_", "", long_data$Factor_for_Preference)
+
+# Create a two-way contingency table
+contingency_table_prefer_canteen <- table(long_data$Prefer_Canteen, long_data$Factor_for_Preference)
+
+# Print the contingency table
+contingency_df_prefer_canteen <- as.data.frame.matrix(contingency_table_prefer_canteen)
+print("Contingency table as a data frame:")
+print(contingency_df_prefer_canteen)
+
+# Perform a Chi-Square Goodness-of-Fit Test
+# Null hypothesis: Canteen preferences are equally distributed
+goodness_of_fit <- chisq.test(rowSums(contingency_table_prefer_canteen))
+print("Goodness-of-Fit Test:")
+print(goodness_of_fit)
+
+# Perform a Chi-Square Test of Independence
+# Null hypothesis: Prefer are independent from Factors for Preference 
+independence_test <- chisq.test(contingency_table_prefer_canteen)
+print("Test of Independence:")
+print(independence_test)
+```
+
