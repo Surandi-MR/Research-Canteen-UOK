@@ -203,3 +203,34 @@ print(summary_stats_Waste_management_rate)
 
 ```
 
+
+```{r}
+# Function to calculate mode
+calculate_mode <- function(x) {
+  unique_x <- unique(x)
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+# Filter columns that end with "_visits"
+selected_columns <- data[, grepl("_visits", colnames(data))]
+
+# Rename columns by removing the suffix "_visits"
+colnames(selected_columns) <- sub("_visits", "", colnames(selected_columns))
+
+# Calculate mean, standard deviation, and mode for each column
+summary_stats__visits <- data.frame(
+  Metric = c("Mean", "Standard Deviation", "Mode"),
+  lapply(selected_columns, function(column) {
+    c(mean(column, na.rm = TRUE), 
+      sd(column, na.rm = TRUE), 
+      calculate_mode(column))
+  })
+)
+
+# Adjust column names in the summary table
+colnames(summary_stats__visits)[-1] <- colnames(selected_columns)
+
+# Print the summary table
+print(summary_stats__visits)
+```
+
