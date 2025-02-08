@@ -140,3 +140,66 @@ print("Test of Independence:")
 print(independence_test)
 ```
 
+
+```{r}
+# Function to calculate mode
+calculate_mode <- function(x) {
+  unique_x <- unique(x)
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+# Filter columns that start with "Cleanliness_rate_in_"
+selected_columns <- data[, grepl("Cleanliness_rate_in_", colnames(data))]
+
+# Rename columns by removing the prefix "Cleanliness_rate_in_"
+colnames(selected_columns) <- sub("Cleanliness_rate_in_", "", colnames(selected_columns))
+
+# Calculate mean, standard deviation, and mode for each column
+summary_stats_Cleanliness_rate <- data.frame(
+  Metric = c("Mean", "Standard Deviation", "Mode"),
+  lapply(selected_columns, function(column) {
+    c(mean(column, na.rm = TRUE), 
+      sd(column, na.rm = TRUE), 
+      calculate_mode(column))
+  })
+)
+
+# Adjust column names in the summary table
+colnames(summary_stats_Cleanliness_rate)[-1] <- colnames(selected_columns)
+
+# Print the summary table
+print(summary_stats_Cleanliness_rate)
+```
+
+
+```{r}
+# Function to calculate mode
+calculate_mode <- function(x) {
+  unique_x <- unique(x)
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+# Filter columns that start with "Waste_management_rate_in_"
+selected_columns <- data[, grepl("Waste_management_rate_in_", colnames(data))]
+
+# Rename columns by removing the prefix "Waste_management_rate_in_"
+colnames(selected_columns) <- sub("Waste_management_rate_in_", "", colnames(selected_columns))
+
+# Calculate mean, standard deviation, and mode for each column
+summary_stats_Waste_management_rate <- data.frame(
+  Metric = c("Mean", "Standard Deviation", "Mode"),
+  lapply(selected_columns, function(column) {
+    c(mean(column, na.rm = TRUE), 
+      sd(column, na.rm = TRUE), 
+      calculate_mode(column))
+  })
+)
+
+# Adjust column names in the summary table
+colnames(summary_stats_Waste_management_rate)[-1] <- colnames(selected_columns)
+
+# Print the summary table
+print(summary_stats_Waste_management_rate)
+
+```
+
