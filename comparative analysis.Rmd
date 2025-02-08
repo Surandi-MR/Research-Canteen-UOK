@@ -116,3 +116,27 @@ print("Test of Independence:")
 print(independence_test)
 ```
 
+
+```{r}
+library(tidyr)
+# Create a two-way contingency table
+contingency_table_Sanitation_Canteen_frq <- table(data$Most_visited_canteen,data$University_canteen_sanitation)
+
+# Print the contingency table
+contingency_Sanitation_Canteen_frq <- as.data.frame.matrix(contingency_table_Sanitation_Canteen_frq)
+print("Contingency table as a data frame:")
+print(contingency_table_Sanitation_Canteen_frq)
+
+# Perform a Chi-Square Goodness-of-Fit Test
+# Null hypothesis: Canteen preferences are equally distributed
+goodness_of_fit <- chisq.test(rowSums(contingency_table_Sanitation_Canteen_frq))
+print("Goodness-of-Fit Test:")
+print(goodness_of_fit)
+
+# Perform a Chi-Square Test of Independence
+# Null hypothesis: Prefer are independent from Factors for Preference 
+independence_test <- chisq.test(contingency_table_Sanitation_Canteen_frq)
+print("Test of Independence:")
+print(independence_test)
+```
+
